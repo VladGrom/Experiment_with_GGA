@@ -1,0 +1,7 @@
+__pycache__/ga.cpython-37.pyc
+best_solution/element_section.npy
+best_solution/group_section.npy
+data/cluster_centers.npy
+data/dot_to_cluster_matrix.npy
+data/dots.npy
+.vscode/*

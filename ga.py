@@ -58,7 +58,7 @@ def get_davis_boulding_index_for_solution(dots, solution, distance_func=get_eucl
     return get_davis_bouldin_index(dots, clusters_centers, dot_to_cluster_matrix)
 
 
-def create_init_population(elements_count,population_size=50, cluster_count_from=2, cluster_count_to=5):
+def create_init_population(elements_count, population_size=50, cluster_count_from=2, cluster_count_to=5):
     solutions = [None for i in range(population_size)]
 
     for i in range(population_size):
@@ -145,9 +145,15 @@ def run(
 
             parent_2 = solutions_sorted[parent_2_key]
 
-            new_population[new_population_index] = parent_1.crossover(parent_2)
-            # Mutation Block
-            new_population[new_population_index].mutate(mutation_probability)
+            offspring = None
+
+            while offspring == None or (len(offspring.group_section) > cluster_count_to or len(offspring.group_section) < cluster_count_from):
+                offspring = parent_1.crossover(parent_2)
+                # Mutation Block
+                offspring.mutate(mutation_probability)
+
+            
+            new_population[new_population_index] = offspring
 
             new_population_index += 1
 
@@ -164,7 +170,7 @@ if __name__ == '__main__':
     dot_to_cluster_matrix = np.load('data/dot_to_cluster_matrix.npy')
 
     best_solution = run(dots, 0.5, 0.2,
-                        iteration_count=100, elitism=True, population_size=100)
+                        iteration_count=100, elitism=True, population_size=500)
     print(str(best_solution))
     print(get_davis_boulding_index_for_solution(dots, best_solution))
 
