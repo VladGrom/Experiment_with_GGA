@@ -27,8 +27,11 @@ def calculate_centers_for_clusters(dots, dot_to_cluster_matrix):
 
     centers = np.zeros((len(cluster_to_dots), 2))
 
-    for cluster_index, dots in enumerate(cluster_to_dots):
-        centers[cluster_index] = np.mean(dots, axis=0)
+    for cluster_index, cluster_dots in enumerate(cluster_to_dots):
+        center = np.mean(cluster_dots, axis=0)
+        distance_to_virtual_center_squared = np.sum(np.power(cluster_dots - center, 2),axis=1)
+        dot_with_min_distance_id = np.where(distance_to_virtual_center_squared == np.amin(distance_to_virtual_center_squared))[0][0]
+        centers[cluster_index] = cluster_dots[dot_with_min_distance_id]
 
     return centers
 
@@ -74,9 +77,11 @@ def get_event_for_discrete_probability(discrete_distribution):
 if __name__ == '__main__':
     # get prepared data from main.py
     #cluster_centers = np.load('data/cluster_centers.npy')
-    #dots = np.load('data/dots.npy')
-    #dot_to_cluster_matrix = np.load('data/dot_to_cluster_matrix.npy')
+    dots = np.load('data/dots.npy')
+    dot_to_cluster_matrix = np.load('data/dot_to_cluster_matrix.npy')
+
+    print(calculate_centers_for_clusters(dots, dot_to_cluster_matrix))
 
     #print(get_labels_for_dots(dots, cluster_centers, dot_to_cluster_matrix))
 
-    print(get_event_for_discrete_probability({1: 0.1, 2: 0.3, 3: 0.2, 4: 0.4}))
+    #print(get_event_for_discrete_probability({1: 0.1, 2: 0.3, 3: 0.2, 4: 0.4}))

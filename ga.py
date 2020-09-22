@@ -58,6 +58,9 @@ def get_davis_boulding_index_for_solution(dots, solution, distance_func=get_eucl
     return get_davis_bouldin_index(dots, clusters_centers, dot_to_cluster_matrix)
 
 
+def get_silhouette_index(dots, dot_to_cluster_matris, distance_funce=get_euclidean_distance_squered):
+    pass
+
 def create_init_population(elements_count, population_size=50, cluster_count_from=2, cluster_count_to=5):
     solutions = [None for i in range(population_size)]
 
@@ -169,8 +172,8 @@ if __name__ == '__main__':
     dots = np.load('data/dots.npy')
     dot_to_cluster_matrix = np.load('data/dot_to_cluster_matrix.npy')
 
-    best_solution = run(dots, 0.5, 0.2,
-                        iteration_count=100, elitism=True, population_size=500)
+    best_solution = run(dots, 0.3, 0.01,
+                        iteration_count=100, elitism=True, population_size=50)
     print(str(best_solution))
     print(get_davis_boulding_index_for_solution(dots, best_solution))
 

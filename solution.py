@@ -32,6 +32,8 @@ class Solution():
         if check_event_success(probability) and len(self.group_section) > 2:
             self.__mutate_by_merging()
 
+        self._remove_empty_groups()
+
     def __mutate_by_splitting(self):
         group_to_probability = {
             group_id: 0 for group_id in self.group_section}
